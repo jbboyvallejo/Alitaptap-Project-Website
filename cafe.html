@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe - Alitaptap Artists Community</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="Favicon/favicon-16x16.png">
+    <link rel="manifest" href="Favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="menu.js" defer></script>
+    <style>
+        header.cafe-header {
+            background:
+                linear-gradient(rgba(0, 0, 0, .35), rgba(0, 0, 0, .35)),
+                url("Pictures/banners/4.jpg") center / cover no-repeat;
+        }
+
+        .product-card .img-box img,
+        .signature-pick .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: inherit;
+        }
+
+        .signatures {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            padding-top: 50px;
+            padding-bottom: 45px;
+        }
+        .signatures .sig-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+        }
+        .signatures .sig-bg img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.04);
+            transition: opacity 1.2s ease, transform 6s ease;
+        }
+        .signatures .sig-bg img.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .signatures .sig-bg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .45) 45%, rgba(0, 0, 0, .65) 100%);
+        }
+
+        .signatures .subhead { color: #f1d9a6; }
+        .signatures h2,
+        .signatures #sigName {
+            color: var(--gold);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, .5);
+        }
+        .signatures h2 { margin-bottom: 24px; }
+        .signatures #sigDesc {
+            color: #f5efe4;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
+        }
+        .signatures .signature-info { margin-top: 18px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .signatures .sig-bg img { transition: none; transform: none; }
+        }
+
+        @media (max-width: 900px) {
+            .menu-browse .menu-tabs {
+                gap: 8px !important;
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+            }
+            .menu-browse .menu-tabs .menu-tab {
+                padding: 7px 16px !important;
+                font-size: .95rem !important;
+                border-width: 1.5px !important;
+                min-height: 0 !important;
+                line-height: 1.2 !important;
+            }
+        }
+        @media (max-width: 520px) {
+            .menu-browse .menu-tabs { gap: 6px !important; }
+            .menu-browse .menu-tabs .menu-tab {
+                padding: 6px 13px !important;
+                font-size: .85rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="cafe-header">
+        <div class="logo-area">
+            <a href="index.html"><img src="Pictures/logo.png" alt="Alitaptap Artists Community logo"></a>
+        </div>
+        <nav>
+            <a href="gallery.html">GALLERY</a>
+            <a href="events.html">EVENTS</a>
+            <a href="artists.html">ARTIST</a>
+            <a href="about.html">ABOUT US</a>
+        </nav>
+        <a href="cafe.html" class="nav-cafe active">CAFE</a>
+    </header>
+
+    <section class="signatures">
+        <div class="sig-bg" id="sigBg" aria-hidden="true"></div>
+
+        <span class="subhead">Cafe</span>
+        <span class="subhead">Taste the feelings</span>
+        <h2>Our signatures</h2>
+        <div class="signature-row" id="signatureRow"></div>
+        <div class="signature-info" aria-live="polite">
+            <h3 id="sigName"></h3>
+            <p id="sigDesc"></p>
+            <div class="product-prices" id="sigPrice"></div>
+        </div>
+    </section>
+
+    <section class="menu-browse">
+        <div class="menu-tabs" id="menuTabs" role="tablist" aria-label="Menu categories"></div>
+        <div id="menuSections"></div>
+    </section>
+
+    <footer>
+        <div class="footer-info">
+            <p>Operating Hours: Tuesday to Sunday | 9:00 AM – 6:00 PM (Closed on Mondays)</p>
+            <p>Contact number: <a href="tel:+639553078472">0955-307-8472</a></p>
+        </div>
+        <div class="socials">
+            <a href="https://www.facebook.com/AlitaptapArtistsCommunity" target="_blank" rel="noopener" aria-label="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com/alitaptapartcafe/" target="_blank" rel="noopener" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="mailto:alitaptapartistcommunity@gmail.com" aria-label="Email">
+                <i class="fa-regular fa-envelope"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        const CAFE_BG_FOLDER = 'Pictures/Cafe/';
+        const CAFE_BG_PHOTOS = [
+            'cafe-sign.jpg',      
+            'cafe-terrace.jpg',   
+            'cafe-tables.jpg',    
+            'cafe-counter.jpg'    
+        ];
+        const CAFE_BG_SECONDS = 8;  
+
+        (function () {
+            const bg = document.getElementById('sigBg');
+            bg.innerHTML = CAFE_BG_PHOTOS.map((file, i) =>
+                `<img src="${encodeURI(CAFE_BG_FOLDER + file)}" alt="" class="${i === 0 ? 'active' : ''}"
+                      onerror="console.warn('Background photo not found:', '${file}')">`
+            ).join('');
+
+            const slides = bg.querySelectorAll('img');
+            if (slides.length < 2) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            let current = 0;
+            setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, CAFE_BG_SECONDS * 1000);
+        })();
+
+        const IMG_FOLDERS = [
+            'Pictures/Cafe/',
+            'Pictures/Cafe/Cafe-Pictures/'
+        ];
+
+        const SIZE_LABELS = ['', ''];
+
+        const MENU = [
+            { id: 'espresso', name: 'Espresso-based', items: [
+                { name: 'Americano', prices: [180], img: 'Americano.jpg' },
+                { name: 'Café Latte', prices: [170], img: 'Cafe Latte.jpg' },
+                { name: 'Cappuccino', prices: [180], img: 'Cappuccino.jpg' },
+                { name: 'Café Mocha', prices: [180], img: 'Cafe Mocha.jpg' },
+                { name: 'Salted Caramel Macchiato', prices: [180], img: 'Salted Caramel Macchiato.jpg' },
+                { name: 'Spanish Latte', prices: [180], img: 'Spanish Latte.jpg' },
+                { name: 'Hazelnut Latte', prices: [180], img: 'Hazelnut Latte.jpg' }
+            ]},
+            { id: 'noncoffee', name: 'Non-coffee', items: [
+                { name: 'Matcha', prices: [180], img: 'Matcha.jpg' },
+                { name: 'Strawberry Matcha', prices: [195], img: 'Starwberry Match.jpg' },
+                { name: 'Milk Chocolate', prices: [170], img: 'Milk Chocolate.jpg' }
+            ]},
+            { id: 'refresher', name: 'Refresher', items: [
+                { name: 'Lush Lemonberry', prices: [180], img: 'lush lemonberry.jpg' },
+                { name: 'Fresh Pipino Lemonade', prices: [195], img: 'fresh pipino lemonade.jpg' },
+                { name: 'Iced Tea Calamansi', prices: [170], img: 'iced tea calamansi.jpg' },
+                { name: 'Lemonade', prices: [195], img: 'lemonade.jpg' },
+                { name: 'Summer Strawberry Calamansi', prices: [195], img: 'summerstrawberrycalamansi.jpg' },
+                { name: 'Sparkling Honey Lemon', prices: [195], img: 'sparkling honey lemon.jpg' }
+            ]},
+            { id: 'pasta', name: 'Pasta', items: [
+                { name: 'Bacon Truffle & Cream', desc: 'Linguine, velvety cream sauce & truffle', prices: [320], img: 'bacontruffle.jpg' },
+                { name: 'Lemon Herb Tuna Pesto', desc: 'Fusilli, pesto sauce & sliced lemon', prices: [320], img: 'lemonherb.jpg' },
+                { name: 'Chicken Alfredo', desc: 'Linguine, rich creamy alfredo sauce & tender chicken', prices: [320], img: 'alfredo.jpg' },
+                { name: 'Sweet Bolognese', desc: 'Linguine, sweet, rich & meaty red sauce', prices: [320], img: 'bolognese.jpg' },
+                { name: 'Gourmet Tuyo', desc: 'Linguine, garlicky oil-based sauce, tuyo & chili flakes', prices: [320], img: 'tuyo.jpg' }
+            ]},
+            { id: 'rice-meals', name: 'Rice meals', items: [
+                { name: 'Pan Grilled Citrus Pork Belly', desc: 'Marinated pork, fried egg & toyo-kalamansi', prices: [320], img: 'porkbelly.jpg' },
+                { name: 'Alitaptap Crispy Bagnet', desc: 'Pork bagnet, fried egg & lechon sauce', prices: [320], img: 'crispybagnet.jpg' },
+                { name: 'Fish Fillet in Cream Oriental Mushroom Sauce', desc: 'Fish fillet, fried egg & creamy mushroom sauce', prices: [320], img: 'fishfillet.jpg' },
+                { name: 'Corned Beef & Eggs', desc: 'Premium corned beef, onion & garlic & 2 fried eggs', prices: [295], img: 'cornbeef.jpg' },
+                { name: "Alitaptap Crispy Fried Chicken (Ala Max's Style)", desc: 'Crispy leg quarter, fried egg & ketchup', prices: [320], img: 'friedchicken.jpg' }
+            ]}
+        ];
+
+        const SIGNATURES = ['Gourmet Tuyo', 'Alitaptap Crispy Bagnet', 'Pan Grilled Citrus Pork Belly'];
+
+        const allItems = MENU.flatMap(c => c.items);
+
+        function tryNextFolder(el) {
+            const next = Number(el.dataset.try) + 1;
+            if (next < IMG_FOLDERS.length) {
+                el.dataset.try = next;
+                el.src = encodeURI(IMG_FOLDERS[next] + el.dataset.file);
+            } else {
+                console.warn('Photo not found in any folder:', el.dataset.file);
+                el.parentElement.textContent = '(picture of food)';
+            }
+        }
+
+        function imgHTML(item, fallback) {
+            if (!item.img) return fallback;
+            const src = encodeURI(IMG_FOLDERS[0] + item.img);
+            return `<img src="${src}" data-file="${item.img}" data-try="0"
+                         alt="${item.name.replace(/"/g, '&quot;')}" onerror="tryNextFolder(this)">`;
+        }
+
+        function priceHTML(prices) {
+            return prices.map((p, i) => {
+                if (p == null) return '';
+                const label = SIZE_LABELS[i] ? `<small>${SIZE_LABELS[i]}</small>` : '';
+                return `<span class="price-chip">${label}₱${p}</span>`;
+            }).join('');
+        }
+
+        function cardHTML(item) {
+            return `
+                <article class="product-card">
+                    <div class="img-box">${imgHTML(item, '(picture of food)')}</div>
+                    <h4>${item.name}</h4>
+                    ${item.desc ? `<p class="product-desc">${item.desc}</p>` : ''}
+                    <div class="product-prices">${priceHTML(item.prices)}</div>
+                </article>`;
+        }
+
+        const tabsEl = document.getElementById('menuTabs');
+        const sectionsEl = document.getElementById('menuSections');
+
+        tabsEl.innerHTML = MENU.map(c =>
+            `<button class="menu-tab" role="tab" data-target="${c.id}">${c.name}</button>`
+        ).join('');
+
+        sectionsEl.innerHTML = MENU.map(c => `
+            <section class="menu-category" id="${c.id}">
+                <div class="menu-category-head">
+                    <h3>${c.name}</h3>
+                </div>
+                <div class="product-grid">${c.items.map(cardHTML).join('')}</div>
+            </section>`
+        ).join('');
+
+        const sigItems = SIGNATURES.map(n => allItems.find(i => i.name === n)).filter(Boolean);
+        const sigRow = document.getElementById('signatureRow');
+
+        sigRow.innerHTML = sigItems.map((item, i) => `
+            <button class="signature-pick" data-index="${i}" aria-label="${item.name}">
+                <div class="img-box">${imgHTML(item, '(picture of food)')}</div>
+            </button>`
+        ).join('');
+
+        function showSignature(i) {
+            const item = sigItems[i];
+            sigRow.querySelectorAll('.signature-pick').forEach(b =>
+                b.classList.toggle('active', Number(b.dataset.index) === i));
+            document.getElementById('sigName').textContent = item.name;
+            document.getElementById('sigDesc').textContent = item.desc || '';
+            document.getElementById('sigPrice').innerHTML = priceHTML(item.prices);
+        }
+        sigRow.addEventListener('click', e => {
+            const btn = e.target.closest('.signature-pick');
+            if (btn) showSignature(Number(btn.dataset.index));
+        });
+        showSignature(Math.floor(sigItems.length / 2));
+
+        const header = document.querySelector('header');
+        const tabs = tabsEl.querySelectorAll('.menu-tab');
+        const sections = sectionsEl.querySelectorAll('.menu-category');
+
+        function setHeaderHeight() {
+            document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+        }
+        setHeaderHeight();
+        window.addEventListener('resize', setHeaderHeight);
+        window.addEventListener('load', setHeaderHeight);
+        new ResizeObserver(setHeaderHeight).observe(header);  
+
+        function setActiveTab(id) {
+            tabs.forEach(t => {
+                const on = t.dataset.target === id;
+                t.classList.toggle('active', on);
+                t.setAttribute('aria-selected', on);
+                if (on) {
+                    tabsEl.scrollTo({
+                        left: t.offsetLeft - tabsEl.clientWidth / 2 + t.offsetWidth / 2,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+
+        tabsEl.addEventListener('click', e => {
+            const tab = e.target.closest('.menu-tab');
+            if (!tab) return;
+            document.getElementById(tab.dataset.target).scrollIntoView({ behavior: 'smooth' });
+        });
+
+        let ticking = false;
+        function updateSpy() {
+            const line = header.offsetHeight + tabsEl.offsetHeight + 20;
+            let current = sections[0].id;
+            sections.forEach(s => {
+                if (s.getBoundingClientRect().top <= line) current = s.id;
+            });
+            setActiveTab(current);
+            ticking = false;
+        }
+        window.addEventListener('scroll', () => {
+            if (!ticking) { requestAnimationFrame(updateSpy); ticking = true; }
+        });
+        updateSpy();
+    </script>
+</body>
+</html>

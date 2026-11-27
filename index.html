@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alitaptap Artists Community - Home</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="Favicon/favicon-16x16.png">
+    <link rel="manifest" href="Favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .about-hero .about-photo {
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+            background: none;
+        }
+        .about-hero .about-photo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .artist-card .img-box {
+            overflow: hidden;
+            padding: 0;
+        }
+        .artist-card .img-box img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mosaic .img-box img { transition: transform .35s ease; }
+        .mosaic .img-box:hover img { transform: scale(1.05); }
+
+        .nav-toggle {
+            display: none;
+            width: 48px;
+            height: 48px;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 12px;
+            background: var(--gold);
+            color: #fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+            transition: transform .2s;
+        }
+        .nav-toggle:hover { transform: scale(1.05); }
+        .nav-toggle:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+            width: min(82vw, 340px);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 90px 28px 32px;
+            background: #2f3a1f;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, .35);
+            transform: translateX(100%);
+            visibility: hidden;
+            transition: transform .3s ease, visibility .3s;
+        }
+        .mobile-menu.open { transform: translateX(0); visibility: visible; }
+
+        .mobile-menu a {
+            display: block;
+            padding: 14px 16px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-decoration: none;
+            transition: background .2s, color .2s;
+        }
+        .mobile-menu a:hover,
+        .mobile-menu a:focus-visible { background: rgba(255, 255, 255, .1); color: var(--gold); }
+        .mobile-menu a.menu-cafe {
+            margin-top: 14px;
+            background: var(--gold);
+            text-align: center;
+        }
+        .mobile-menu a.menu-cafe:hover,
+        .mobile-menu a.menu-cafe:focus-visible { background: #a87a28; color: #fff; }
+
+        .menu-close {
+            position: absolute;
+            top: 22px;
+            right: 22px;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+        .menu-close:hover,
+        .menu-close:focus-visible { background: var(--gold); }
+
+        .menu-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            background: rgba(0, 0, 0, .5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .3s, visibility .3s;
+        }
+        .menu-backdrop.open { opacity: 1; visibility: visible; }
+        body.menu-lock { overflow: hidden; }
+
+        @media (max-width: 900px) {
+            .overlay-header nav,
+            .overlay-header .nav-cafe { display: none; }
+            .nav-toggle { display: flex; }
+        }
+        @media (min-width: 901px) {
+            .mobile-menu,
+            .menu-backdrop { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-banner-wrapper">
+        <header class="overlay-header">
+            <div class="logo-area">
+                <a href="index.html"><img src="Pictures/logo.png" alt="Alitaptap Artists Community logo"></a>
+            </div>
+            <nav>
+                <a href="gallery.html">GALLERY</a>
+                <a href="events.html">EVENTS</a>
+                <a href="artists.html">ARTIST</a>
+                <a href="about.html">ABOUT US</a>
+            </nav>
+            <a href="cafe.html" class="nav-cafe">CAFE</a>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+    </div>
+
+    <div class="menu-backdrop" id="menuBackdrop"></div>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Main menu" aria-hidden="true">
+        <button class="menu-close" id="menuClose" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+        <a href="gallery.html">GALLERY</a>
+        <a href="events.html">EVENTS</a>
+        <a href="artists.html">ARTIST</a>
+        <a href="about.html">ABOUT US</a>
+        <a href="cafe.html" class="menu-cafe">CAFE</a>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-left">
+                <div class="hero-imageplaceholder slideshow" id="heroSlides">
+                    <img class="slide active" src="Pictures/Landing page/1st section/a-landing.png" alt="Artist studios on the Alitaptap grounds">
+                    <img class="slide" src="Pictures/Landing page/1st section/b-landing.png" alt="Large animal mural on a wall at Alitaptap">
+                    <img class="slide" src="Pictures/Landing page/1st section/c-landing.png" alt="Open-air studio with paintings">
+                    <img class="slide" src="Pictures/Landing page/1st section/d-landing.png" alt="Dog resting on the lawn at Alitaptap">
+
+                    <button class="slide-arrow prev" aria-label="Previous photo"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="slide-arrow next" aria-label="Next photo"><i class="fa-solid fa-chevron-right"></i></button>
+                    <div class="slide-dots"></div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="hero-text-content">
+                    <span class="subhead">Welcome to</span>
+                    <h1>Alitaptap</h1>
+                    <p>A community within a community, where artists live, create, trade, and share knowledge surrounded by nature.</p>
+                </div>
+                <div class="video-box">
+                    <a class="video-link" href="https://www.youtube.com/watch?v=Etw-RzKmNUw&t=142s" target="_blank" rel="noopener">
+                        <img src="https://img.youtube.com/vi/Etw-RzKmNUw/hqdefault.jpg" alt="Alitaptap Documentary">
+                        <span class="play-btn"><i class="fa-solid fa-play"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section white">
+        <span class="subhead">Gallery</span>
+        <h2>Featured artworks</h2>
+        <p class="intro">Paintings, sculptures, and installations created by the resident artists of Alitaptap.</p>
+
+        <div class="mosaic">
+            <a href="gallery.html" class="img-box wide">
+                <img src="Pictures/Gallery/Silang by Orley Ypon.jpg" alt="Silang by Orley Ypon">
+            </a>
+            <a href="gallery.html" class="img-box">
+                <img src="Pictures/Gallery/Lover Boy by Jebo Padernal.jpg" alt="Lover Boy by Jebo Padernal">
+            </a>
+            <a href="gallery.html" class="img-box">
+                <img src="Pictures/Gallery/Bayang Lutang by Otto.jpg" alt="Bayang Lutang by Othoniel Neri">
+            </a>
+        </div>
+        <div class="section-end"><a href="gallery.html" class="btn">See gallery</a></div>
+    </section>
+
+    <section class="section">
+        <span class="subhead">Events</span>
+        <h2>Where art meets community</h2>
+        <p class="intro">Exhibitions, festivals, and gatherings hosted by and with the Alitaptap community.</p>
+
+        <div style="margin-top:60px">
+            <div class="event-card-wide">
+                <div class="img-box"><img src="Pictures/Events/Pista ng Sining Salinsining Festival.jpg" alt="Pista ng Sining: Salinsining Festival"></div>
+                <div class="event-info">
+                    <span class="date">February 2026</span>
+                    <h3>Pista ng Sining: Salinsining Festival</h3>
+                    <p>A comprehensive arts festival hosted directly on the Alitaptap community grounds.</p>
+                    <a href="https://www.facebook.com/share/p/1MBBHTHRXR/"
+                    class="read-more" target="_blank" rel="noopener">Read More</a>
+                </div>
+            </div>
+        </div>
+        <div class="section-end"><a href="events.html" class="btn">See events</a></div>
+    </section>
+
+    <section class="section white">
+        <span class="subhead">Cafe</span>
+        <h2>Taste the feelings</h2>
+        <p class="intro">Coffee, refreshers, and comfort meals served at the Alitaptap Art Cafe.</p>
+
+        <div class="sig-showcase">
+            <div class="signature-row" id="homeSigRow">
+                <button class="signature-pick" data-index="0" aria-label="Gourmet Tuyo">
+                    <div class="img-box"><img src="Pictures/Cafe/tuyo.jpg" alt="Gourmet Tuyo"></div>
+                </button>
+                <button class="signature-pick" data-index="1" aria-label="Alitaptap Crispy Bagnet">
+                    <div class="img-box"><img src="Pictures/Cafe/crispybagnet.jpg" alt="Alitaptap Crispy Bagnet"></div>
+                </button>
+                <button class="signature-pick" data-index="2" aria-label="Pan Grilled Citrus Pork Belly">
+                    <div class="img-box"><img src="Pictures/Cafe/porkbelly.jpg" alt="Pan Grilled Citrus Pork Belly"></div>
+                </button>
+            </div>
+            <div class="signature-info" aria-live="polite">
+                <h3 id="homeSigName"></h3>
+                <p id="homeSigDesc"></p>
+                <div class="product-prices" id="homeSigPrice"></div>
+            </div>
+        </div>
+
+        <div class="section-end"><a href="cafe.html" class="btn">Browse the menu</a></div>
+    </section>
+
+    <section class="section">
+        <span class="subhead">Artist</span>
+        <h2>Meet the creatives</h2>
+        <p class="intro">The painters, sculptors, and makers who call Alitaptap home.</p>
+
+        <div class="grid-container">
+            <a href="artist-pages/Crisanta.html" class="item-card artist-card">
+                <div class="img-box"><img src="Pictures/Artist/Crisanta Tamayo-Ancanan.jpg" alt="Crisanta Tamayo-Ancanan"></div>
+                <h4>Crisanta Tamayo-Ancanan</h4>
+                <p>Visual artist</p>
+            </a>
+
+            <a href="artist-pages/Otto.html" class="item-card artist-card">
+                <div class="img-box"><img src="Pictures/Artist/Othoniel Otto Neri.jpg" alt="Othoniel &quot;Otto&quot; Neri"></div>
+                <h4>Othoniel "Otto" Neri</h4>
+                <p>Visual artist</p>
+            </a>
+
+            <a href="artist-pages/Jebo.html" class="item-card artist-card">
+                <div class="img-box"><img src="Pictures/Artist/Jebo Padernal.jpg" alt="Jebo Padernal"></div>
+                <h4>Jebo Padernal</h4>
+                <p>Contemporary visual artist and painter</p>
+            </a>
+        </div>
+        <div class="section-end"><a href="artists.html" class="btn">More artists</a></div>
+    </section>
+
+    <section class="section white">
+        <div class="about-hero">
+            <div class="img-box about-photo">
+                <img src="Pictures/About us/1.jpg" alt="Founder of Alitaptap Artists Community">
+            </div>
+            <div class="about-card">
+                <span class="subhead">About us</span>
+                <h2>Story of Alitaptap</h2>
+                <blockquote>"Ours is a community within a community. Alitaptap was born out of a shared dream to build an affordable, self-sustaining sanctuary where transient creators can permanently coexist, trade, and exchange knowledge. We treat art not as a luxury for elite galleries, but as a collaborative tool for societal healing, environmental education, and organic grassroots change."</blockquote>
+                <p class="attribution">— Henry "Bokeng" Ancanan &amp; Adrian "AJ" Manuel, Founders of Alitaptap Artists Community</p>
+            </div>
+        </div>
+        <div class="section-end"><a href="about.html" class="btn">Learn more</a></div>
+    </section>
+
+    <footer>
+        <div class="footer-info">
+            <p>Operating Hours: Tuesday to Sunday | 9:00 AM – 6:00 PM (Closed on Mondays)</p>
+            <p>Contact number: <a href="tel:+639553078472">0955-307-8472</a></p>
+        </div>
+        <div class="socials">
+            <a href="https://www.facebook.com/AlitaptapArtistsCommunity" target="_blank" rel="noopener" aria-label="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com/alitaptapartcafe/" target="_blank" rel="noopener" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="mailto:alitaptapartistcommunity@gmail.com" aria-label="Email">
+                <i class="fa-regular fa-envelope"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const toggle = document.getElementById('navToggle');
+            const menu = document.getElementById('mobileMenu');
+            const backdrop = document.getElementById('menuBackdrop');
+            const closeBtn = document.getElementById('menuClose');
+
+            function openMenu() {
+                menu.classList.add('open');
+                backdrop.classList.add('open');
+                menu.setAttribute('aria-hidden', 'false');
+                toggle.setAttribute('aria-expanded', 'true');
+                document.body.classList.add('menu-lock');
+                closeBtn.focus();
+            }
+            function closeMenu() {
+                menu.classList.remove('open');
+                backdrop.classList.remove('open');
+                menu.setAttribute('aria-hidden', 'true');
+                toggle.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('menu-lock');
+            }
+
+            toggle.addEventListener('click', openMenu);
+            closeBtn.addEventListener('click', () => { closeMenu(); toggle.focus(); });
+            backdrop.addEventListener('click', closeMenu);
+            menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && menu.classList.contains('open')) { closeMenu(); toggle.focus(); }
+            });
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 900 && menu.classList.contains('open')) closeMenu();
+            });
+        })();
+    </script>
+
+    <script>
+        const HOME_SIGS = [
+            { name: 'Gourmet Tuyo', desc: 'Linguine, garlicky oil-based sauce, tuyo & chili flakes', price: 320 },
+            { name: 'Alitaptap Crispy Bagnet', desc: 'Pork bagnet, fried egg & lechon sauce', price: 320 },
+            { name: 'Pan Grilled Citrus Pork Belly', desc: 'Marinated pork, fried egg & toyo-kalamansi', price: 320 }
+        ];
+        const homeSigRow = document.getElementById('homeSigRow');
+
+        function showHomeSig(i) {
+            homeSigRow.querySelectorAll('.signature-pick').forEach(b =>
+                b.classList.toggle('active', Number(b.dataset.index) === i));
+            document.getElementById('homeSigName').textContent = HOME_SIGS[i].name;
+            document.getElementById('homeSigDesc').textContent = HOME_SIGS[i].desc;
+            document.getElementById('homeSigPrice').innerHTML =
+                `<span class="price-chip">₱${HOME_SIGS[i].price}</span>`;
+        }
+        homeSigRow.addEventListener('click', e => {
+            const btn = e.target.closest('.signature-pick');
+            if (btn) showHomeSig(Number(btn.dataset.index));
+        });
+        showHomeSig(1);   
+    </script>
+
+    <script>
+        (function () {
+            const slideshow = document.getElementById('heroSlides');
+            const slides = slideshow.querySelectorAll('.slide');
+            const dotsEl = slideshow.querySelector('.slide-dots');
+            let current = 0;
+            let timer;
+
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'slide-dot';
+                dot.setAttribute('aria-label', `Show photo ${i + 1}`);
+                dot.addEventListener('click', () => { goTo(i); restart(); });
+                dotsEl.appendChild(dot);
+            });
+            const dots = dotsEl.querySelectorAll('.slide-dot');
+
+            function goTo(i) {
+                current = (i + slides.length) % slides.length;
+                slides.forEach((s, j) => s.classList.toggle('active', j === current));
+                dots.forEach((d, j) => d.classList.toggle('active', j === current));
+            }
+            function restart() {
+                clearInterval(timer);
+                timer = setInterval(() => goTo(current + 1), 4000);   // 4 seconds
+            }
+
+            slideshow.querySelector('.prev').addEventListener('click', () => { goTo(current - 1); restart(); });
+            slideshow.querySelector('.next').addEventListener('click', () => { goTo(current + 1); restart(); });
+            slideshow.addEventListener('mouseenter', () => clearInterval(timer));
+            slideshow.addEventListener('mouseleave', restart);
+
+            goTo(0);
+            restart();
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisanta Tamayo-Ancanan - Alitaptap Artists Community</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../Favicon/favicon-16x16.png">
+    <link rel="manifest" href="../Favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .artist-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 10px;
+        }
+        .artist-social {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #000;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .artist-social i {
+            font-size: 2rem;
+            color: #000;
+        }
+        .artist-social:hover span {
+            text-decoration: underline;
+        }
+
+        /* ---------- Artworks: bigger thumbnails ---------- */
+        .artists-artworks-section .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            width: 100%;
+        }
+        .artists-artworks-section .artwork-thumb {
+            width: 100%;
+            max-width: none;
+            cursor: zoom-in;
+        }
+        .artists-artworks-section .artwork-thumb img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: none;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: 16px;
+            transition: transform .35s ease, box-shadow .35s ease;
+        }
+        .artists-artworks-section .artwork-thumb:hover img {
+            transform: scale(1.03);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .2);
+        }
+        .artists-artworks-section .artwork-thumb p {
+            margin-top: 12px;
+            font-size: 1rem;
+        }
+        .artists-artworks-section .artwork-thumb:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 4px;
+            border-radius: 16px;
+        }
+
+        @media (max-width: 900px) {
+            .artists-artworks-section .grid-3 { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 520px) {
+            .artists-artworks-section .grid-3 { grid-template-columns: 1fr; }
+        }
+
+        /* ---------- Artworks: expanded viewer ---------- */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 80px;
+            background: rgba(0, 0, 0, .88);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .25s, visibility .25s;
+        }
+        .lightbox.open { opacity: 1; visibility: visible; }
+        .lightbox figure {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+        }
+        .lightbox img {
+            max-width: 100%;
+            max-height: calc(100vh - 170px);
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .5);
+            transform: scale(.95);
+            transition: transform .25s;
+        }
+        .lightbox.open img { transform: scale(1); }
+        .lightbox figcaption { margin-top: 14px; text-align: center; color: #fff; }
+        .lightbox figcaption h4 {
+            margin: 0;
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            color: var(--gold);
+        }
+        .lightbox figcaption p { margin: 2px 0 0; font-size: .9rem; opacity: .85; }
+
+        .lb-btn {
+            position: absolute;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .15);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .lb-btn:hover,
+        .lb-btn:focus-visible { background: var(--gold); }
+        .lb-close { top: 20px; right: 20px; }
+        .lb-prev { left: 18px; top: 50%; translate: 0 -50%; }
+        .lb-next { right: 18px; top: 50%; translate: 0 -50%; }
+        body.lb-lock { overflow: hidden; }
+
+        @media (max-width: 600px) {
+            .lightbox { padding: 70px 12px 90px; }
+            .lb-prev, .lb-next { top: auto; bottom: 20px; translate: none; }
+            .lb-prev { left: calc(50% - 56px); }
+            .lb-next { right: calc(50% - 56px); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="artists-header">
+        <div class="logo-area">
+            <a href="../index.html"><img src="../Pictures/logo.png" alt="Alitaptap Artists Community logo"></a>
+        </div>
+        <nav>
+            <a href="../gallery.html">GALLERY</a>
+            <a href="../events.html">EVENTS</a>
+            <a href="../artists.html" class="active">ARTIST</a>
+            <a href="../about.html">ABOUT US</a>
+        </nav>
+        <a href="../cafe.html" class="nav-cafe">CAFE</a>
+    </header>
+
+    <section class="detail-layout">
+        <div class="img-box">
+            <img src="../Pictures/Artist/Crisanta Tamayo-Ancanan.jpg" alt="Crisanta Tamayo-Ancanan">
+        </div>
+
+        <div class="detail-text">
+            <h1>Crisanta Tamayo-Ancanan</h1>
+            <p class="meta">Visual Artist</p>
+            <p class="meta">Amadeo, Cavite</p>
+            <p>A visual artist from Far Eastern University (1992) and member of the Alitaptap Artists Community. Her abstract practice explores energy, vibration, and movement through layered forms and dynamic colors, alongside teaching art and advocating for environmental preservation.</p>
+
+            <!-- Social links -->
+            <div class="artist-socials">
+                <a href="https://www.instagram.com/xt_rite/" class="artist-social" target="_blank" rel="noopener noreferrer" aria-label="Crisanta Tamayo-Ancanan on Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://web.facebook.com/xtrite" class="artist-social" target="_blank" rel="noopener noreferrer" aria-label="Crisanta Tamayo-Ancanan on Facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-content" style="padding-top:0;">
+        <div class="artists-artworks-section">
+            <h3>Artworks</h3>
+            <div class="grid-3">
+                <div class="artwork-thumb">
+                    <img src="../Pictures/Gallery/Mars by Cristy Tamayo-Ancanan.jpg" alt="Mars by Crisanta Tamayo-Ancanan">
+                    <p>Mars (Acrylic painting)</p>
+                </div>
+                <div class="artwork-thumb">
+                    <img src="../Pictures/Gallery/Pagninilay.jpg" alt="Pagninilay by Crisanta Tamayo-Ancanan">
+                    <p>Pagninilay (Acrylic painting)</p>
+                </div>
+                <div class="artwork-thumb">
+                    <img src="../Pictures/Gallery/Romancing Reflections.jpg" alt="Romancing Reflections by Crisanta Tamayo-Ancanan">
+                    <p>Romancing Reflections (Acrylic painting)</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="../artists.html" class="btn">Back to Artists</a>
+        </div>
+    </section>
+
+    <!-- Artwork viewer (opens when an artwork is clicked) -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Artwork viewer" aria-hidden="true">
+        <button class="lb-btn lb-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <button class="lb-btn lb-prev" aria-label="Previous artwork"><i class="fa-solid fa-chevron-left"></i></button>
+        <figure>
+            <img id="lbImg" src="" alt="">
+            <figcaption>
+                <h4 id="lbTitle"></h4>
+                <p id="lbArtist"></p>
+                <p id="lbMedium"></p>
+            </figcaption>
+        </figure>
+        <button class="lb-btn lb-next" aria-label="Next artwork"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <footer>
+        <div class="footer-info">
+            <p>Operating Hours: Tuesday to Sunday | 9:00 AM – 6:00 PM (Closed on Mondays)</p>
+            <p>Contact number: <a href="tel:+639553078472">0955-307-8472</a></p>
+        </div>
+        <div class="socials">
+            <a href="https://www.facebook.com/AlitaptapArtistsCommunity" target="_blank" rel="noopener" aria-label="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com/alitaptapartcafe/" target="_blank" rel="noopener" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="mailto:alitaptapartistcommunity@gmail.com" aria-label="Email">
+                <i class="fa-regular fa-envelope"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Artworks: click to see larger
+        (function () {
+            const ARTIST = document.querySelector('.detail-text h1').textContent;
+            const cards = [...document.querySelectorAll('.artists-artworks-section .artwork-thumb')];
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lbImg');
+            const lbTitle = document.getElementById('lbTitle');
+            const lbArtist = document.getElementById('lbArtist');
+            const lbMedium = document.getElementById('lbMedium');
+            let current = 0;
+            let lastFocus = null;
+
+            // Splits "Mars (Acrylic painting)" into title and description
+            function parse(text) {
+                const m = text.trim().match(/^(.*?)\s*\((.*)\)\s*$/);
+                return m ? { title: m[1], medium: m[2] } : { title: text.trim(), medium: '' };
+            }
+
+            function show(i) {
+                current = (i + cards.length) % cards.length;
+                const card = cards[current];
+                const photo = card.querySelector('img');
+                const info = parse(card.querySelector('p').textContent);
+                lbImg.src = photo.src;
+                lbImg.alt = photo.alt;
+                lbTitle.textContent = info.title;
+                lbArtist.textContent = ARTIST;
+                lbMedium.textContent = info.medium;
+            }
+            function open(i) {
+                lastFocus = document.activeElement;
+                show(i);
+                lb.classList.add('open');
+                lb.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('lb-lock');
+                lb.querySelector('.lb-close').focus();
+            }
+            function close() {
+                lb.classList.remove('open');
+                lb.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('lb-lock');
+                if (lastFocus) lastFocus.focus();
+            }
+
+            cards.forEach((card, i) => {
+                card.tabIndex = 0;
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-label', 'View ' + parse(card.querySelector('p').textContent).title + ' larger');
+                card.addEventListener('click', () => open(i));
+                card.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+                });
+            });
+
+            lb.querySelector('.lb-close').addEventListener('click', close);
+            lb.querySelector('.lb-prev').addEventListener('click', () => show(current - 1));
+            lb.querySelector('.lb-next').addEventListener('click', () => show(current + 1));
+            lb.addEventListener('click', e => { if (e.target === lb) close(); });
+
+            document.addEventListener('keydown', e => {
+                if (!lb.classList.contains('open')) return;
+                if (e.key === 'Escape') close();
+                if (e.key === 'ArrowLeft') show(current - 1);
+                if (e.key === 'ArrowRight') show(current + 1);
+            });
+        })();
+    </script>
+
+</body>
+</html>
